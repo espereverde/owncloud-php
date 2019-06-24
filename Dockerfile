@@ -1,4 +1,4 @@
-FROM espereverde/owncloud-ubuntu:latest
+FROM espereverde/owncloud-arm-ubuntu:latest
 
 EXPOSE 8080
 
