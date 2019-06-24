@@ -1,17 +1,11 @@
-FROM owncloud/ubuntu:latest
-
-LABEL maintainer="ownCloud DevOps <devops@owncloud.com>" \
-  org.label-schema.name="ownCloud PHP" \
-  org.label-schema.vendor="ownCloud GmbH" \
-  org.label-schema.schema-version="1.0"
+FROM espereverde/owncloud-ubuntu:latest
 
 EXPOSE 8080
 
 ENTRYPOINT ["/usr/bin/entrypoint"]
 CMD ["/usr/bin/server"]
 
-RUN curl -s https://download.owncloud.com/repositories/sernet/sernet.key | apt-key add - && \
-  echo "deb https://download.owncloud.com/repositories/sernet/samba-4.8/ubuntu bionic main" | tee /etc/apt/sources.list.d/sernet.list
+RUN [ "cross-build-start" ]
 
 RUN apt-get update -y && \
   apt-get upgrade -y && \
@@ -34,7 +28,7 @@ RUN apt-get update -y && \
     php-apcu \
     php-redis \
     php-smbclient \
-    sernet-samba-client \
+    smbclient \
     patch \
     mysql-client \
     postgresql-client \
@@ -45,6 +39,8 @@ RUN apt-get update -y && \
   mkdir -p /var/www/html && \
   chown -R www-data:www-data /var/www/html /var/log/apache2 /var/run/apache2 && \
   chsh -s /bin/bash www-data
+  
+RUN [ "cross-build-end" ]
 
 COPY rootfs /
 WORKDIR /var/www/html
