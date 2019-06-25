@@ -5,8 +5,6 @@ EXPOSE 8080
 ENTRYPOINT ["/usr/bin/entrypoint"]
 CMD ["/usr/bin/server"]
 
-RUN [ "cross-build-start" ]
-
 RUN apt-get update -y && \
   apt-get upgrade -y && \
   apt-get install -y \
@@ -40,7 +38,5 @@ RUN apt-get update -y && \
   chown -R www-data:www-data /var/www/html /var/log/apache2 /var/run/apache2 && \
   chsh -s /bin/bash www-data
   
-RUN [ "cross-build-end" ]
-
 COPY rootfs /
 WORKDIR /var/www/html
